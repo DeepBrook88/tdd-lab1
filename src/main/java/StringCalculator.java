@@ -4,7 +4,12 @@ public class StringCalculator {
             return 0;
         }
         else {
-            return Integer.valueOf(numbers);
+            String[] numSplit = numbers.split(",");
+            int sum = 0;
+            for (String s : numSplit) {
+                sum += Integer.parseInt(s);
+            }
+            return sum;
         }
     }
 }

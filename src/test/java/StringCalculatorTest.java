@@ -20,4 +20,8 @@ public class StringCalculatorTest {
     void addOneNumString(){
         assertEquals(1,test.add("1"));
     }
+    @Test
+    void addTwoNumString(){
+        assertEquals(3,test.add("1,2"));
+    }
 }
