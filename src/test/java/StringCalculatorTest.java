@@ -34,4 +34,9 @@ public class StringCalculatorTest {
         assertEquals(6,test.add("1\n2,3"));
         assertEquals(1,test.add("1,\n"));
     }
+    @Test
+    void addAnyNumStringWithSeparators(){
+        assertEquals(6,test.add("//;\n1;2;3"));
+        assertEquals(6,test.add("//,\n1,2,3"));
+    }
 }
