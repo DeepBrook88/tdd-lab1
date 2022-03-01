@@ -13,6 +13,9 @@ public class StringCalculator {
             numSplit = numbers.split(",|\n");
         }
         for (String s : numSplit) {
+            if(Integer.parseInt(s) < 0) {
+                throw new IllegalArgumentException("Negatives not allowed - " + s);
+            }
             sum += Integer.parseInt(s);
         }
         return sum;

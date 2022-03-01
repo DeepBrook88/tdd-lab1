@@ -1,8 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class StringCalculatorTest {
 
@@ -38,5 +37,12 @@ public class StringCalculatorTest {
     void addAnyNumStringWithSeparators(){
         assertEquals(6,test.add("//;\n1;2;3"));
         assertEquals(6,test.add("//,\n1,2,3"));
+    }
+    @Test
+    void addAnyNumStringWithNegativeNumThrowsException(){
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> test.add("//,\n1,-2,3")
+        );
+        assertEquals("Negatives not allowed - -2", exception.getMessage());
     }
 }
