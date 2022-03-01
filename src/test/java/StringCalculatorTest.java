@@ -24,4 +24,8 @@ public class StringCalculatorTest {
     void addTwoNumString(){
         assertEquals(3,test.add("1,2"));
     }
+    @Test
+    void addAnyNumString(){
+        assertEquals(6,test.add("1,2,3"));
+    }
 }
