@@ -16,4 +16,8 @@ public class StringCalculatorTest {
     void addEmptyString() {
         assertEquals(0,test.add(""));
     }
+    @Test
+    void addOneNumString(){
+        assertEquals(1,test.add("1"));
+    }
 }
