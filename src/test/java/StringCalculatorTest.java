@@ -1,9 +1,10 @@
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.InputStream;
-import java.io.StringBufferInputStream;
-import java.io.StringReader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -13,11 +14,24 @@ public class StringCalculatorTest {
 
     StringCalculator test;
     Logger mockedLogger;
+    InputStream in;
+    PrintStream out;
+
+    String text;
 
     @BeforeEach
     void setUp() {
         mockedLogger = mock(Logger.class);
         test = new StringCalculator(mockedLogger);
+        in = System.in;
+        out = System.out;
+        text = "StringCalculator\nUsage: enter a sequence of positive integers in one of the following ways:\n" +
+                "comma separated: \"scalc '1,2,3'\"\n" + System.lineSeparator();
+    }
+    @AfterEach
+    void tearDown() {
+        System.setIn(in);
+        System.setOut(out);
     }
 
     @Test
@@ -57,5 +71,15 @@ public class StringCalculatorTest {
     void addLargeNumberLogged(){
         assertEquals(1001, test.add("1001"));
         verify(mockedLogger).log(1001);
+    }
+    @Test
+    void mainWelcomeHelpText(){
+        OutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(outputStream);
+        System.setOut(printStream);
+        InputStream stringStream = new ByteArrayInputStream("".getBytes());
+        System.setIn(stringStream);
+        StringCalculator.main(new String[]{});
+        assertEquals(text, outputStream.toString());
     }
 }
