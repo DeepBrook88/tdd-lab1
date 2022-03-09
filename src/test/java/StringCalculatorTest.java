@@ -1,15 +1,23 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.InputStream;
+import java.io.StringBufferInputStream;
+import java.io.StringReader;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class StringCalculatorTest {
 
     StringCalculator test;
+    Logger mockedLogger;
 
     @BeforeEach
     void setUp() {
-        test = new StringCalculator();
+        mockedLogger = mock(Logger.class);
+        test = new StringCalculator(mockedLogger);
     }
 
     @Test
@@ -44,5 +52,10 @@ public class StringCalculatorTest {
                 () -> test.add("//,\n1,-2,3")
         );
         assertEquals("Negatives not allowed - -2", exception.getMessage());
+    }
+    @Test
+    void addLargeNumberLogged(){
+        assertEquals(1001, test.add("1001"));
+        verify(mockedLogger).log(1001);
     }
 }

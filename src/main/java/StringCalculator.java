@@ -1,4 +1,8 @@
 public class StringCalculator {
+    Logger logger;
+    StringCalculator(Logger logger){
+        this.logger = logger;
+    }
     public int add(String numbers) {
         String[] tokens = numbers.split("\n");
         String[] numSplit;
@@ -13,10 +17,14 @@ public class StringCalculator {
             numSplit = numbers.split(",|\n");
         }
         for (String s : numSplit) {
-            if(Integer.parseInt(s) < 0) {
+            int num = Integer.parseInt(s);
+            if(num < 0) {
                 throw new IllegalArgumentException("Negatives not allowed - " + s);
             }
-            sum += Integer.parseInt(s);
+            if(num > 1000) {
+                logger.log(num);
+            }
+            sum += num;
         }
         return sum;
     }
