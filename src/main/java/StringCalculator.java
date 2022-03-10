@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringCalculator {
     Logger logger;
@@ -12,7 +14,15 @@ public class StringCalculator {
         System.out.println(help);
         Scanner sc = new Scanner(System.in);
         if (sc.hasNextLine()){
-
+            String token = sc.nextLine();
+            StringCalculator calc = new StringCalculator(new StubLogger());
+            if(token.matches("scalc '.*'")) {
+                String regex = "(?<=\\').*(?=\\')";
+                Pattern p = Pattern.compile(regex);
+                Matcher m = p.matcher(token);
+                m.find();
+                System.out.println("The result is " + calc.add(m.group(0)));
+            }
         }
     }
 

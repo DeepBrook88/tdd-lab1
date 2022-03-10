@@ -82,4 +82,18 @@ public class StringCalculatorTest {
         StringCalculator.main(new String[]{});
         assertEquals(text, outputStream.toString());
     }
+    @Test
+    void mainAddInput(){
+        String string = "scalc '1,2,3'\n";
+        InputStream stringStream = new ByteArrayInputStream(string.getBytes());
+        System.setIn(stringStream);
+
+        text += "The result is 6" + System.lineSeparator();
+        OutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(outputStream);
+        System.setOut(printStream);
+
+        StringCalculator.main(new String[]{});
+        assertEquals(text, outputStream.toString());
+    }
 }
