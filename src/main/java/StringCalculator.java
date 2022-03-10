@@ -13,7 +13,7 @@ public class StringCalculator {
                 "comma separated: \"scalc '1,2,3'\"\n";
         System.out.println(help);
         Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLine()){
+        while (sc.hasNextLine()){
             String token = sc.nextLine();
             StringCalculator calc = new StringCalculator(new StubLogger());
             if(token.matches("scalc '.*'")) {

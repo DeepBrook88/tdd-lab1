@@ -96,4 +96,22 @@ public class StringCalculatorTest {
         StringCalculator.main(new String[]{});
         assertEquals(text, outputStream.toString());
     }
+    @Test
+    void mainAddInputLoop() {
+        String string = "scalc '1,2,3'\n";
+        string += "scalc '1,2,4'\n";
+        string += "scalc '1,2,8'\n";
+        InputStream stringStream = new ByteArrayInputStream(string.getBytes());
+        System.setIn(stringStream);
+
+        text += "The result is 6" + System.lineSeparator();
+        text += "The result is 7" + System.lineSeparator();
+        text += "The result is 11" + System.lineSeparator();
+        OutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(outputStream);
+        System.setOut(printStream);
+
+        StringCalculator.main(new String[]{});
+        assertEquals(text, outputStream.toString());
+    }
 }
