@@ -3,8 +3,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -107,6 +105,22 @@ public class StringCalculatorTest {
         text += "The result is 6" + System.lineSeparator();
         text += "The result is 7" + System.lineSeparator();
         text += "The result is 11" + System.lineSeparator();
+        OutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(outputStream);
+        System.setOut(printStream);
+
+        StringCalculator.main(new String[]{});
+        assertEquals(text, outputStream.toString());
+    }
+    @Test
+    void mainAddInputAdvanced() {
+        String string = "scalc '//[***][%%%].1***2%%%3'\n";
+        string += "scalc '//[,][;].1,2;4'\n";
+        InputStream stringStream = new ByteArrayInputStream(string.getBytes());
+        System.setIn(stringStream);
+
+        text += "The result is 6" + System.lineSeparator();
+        text += "The result is 7" + System.lineSeparator();
         OutputStream outputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
         System.setOut(printStream);

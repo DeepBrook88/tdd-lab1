@@ -1,6 +1,10 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class StringCalculator {
     Logger logger;
@@ -13,15 +17,28 @@ public class StringCalculator {
                 "comma separated: \"scalc '1,2,3'\"\n";
         System.out.println(help);
         Scanner sc = new Scanner(System.in);
-        while (sc.hasNextLine()){
-            String token = sc.nextLine();
+        String token;
+        while (sc.hasNextLine() && !(token = sc.nextLine()).equals("")){
             StringCalculator calc = new StringCalculator(new StubLogger());
             if(token.matches("scalc '.*'")) {
                 String regex = "(?<=\\').*(?=\\')";
-                Pattern p = Pattern.compile(regex);
-                Matcher m = p.matcher(token);
+                Matcher m = Pattern.compile(regex).matcher(token);
                 m.find();
-                System.out.println("The result is " + calc.add(m.group(0)));
+                String out = m.group(0);
+                List<String> list = Arrays.stream(m.group(0).split("\\.")).collect(Collectors.toList());
+                Matcher m2 = Pattern.compile("\\[([^\\]]+)").matcher(list.get(0));
+                List<String> delims = new ArrayList<>();
+                int pos = -1;
+                while (m2.find(pos+1)) {
+                    pos = m2.start();
+                    delims.add(m2.group(1));
+                }
+                if ( !delims.isEmpty()) {
+                    delims.replaceAll(Pattern::quote);
+                    String tmp = String.join("|", delims);
+                    out = list.get(1).replaceAll(tmp,",");
+                }
+                System.out.println("The result is " + calc.add(out));
             }
         }
     }
